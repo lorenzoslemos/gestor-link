@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Adicionar Cobrança</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label for="id_cpf" class="form-label">CPF</label>
+            {{ form.cpf }}  <!-- Use form field for CPF -->
+            {% if form.cpf.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.cpf.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_cnpj" class="form-label">CNPJ</label>
+            {{ form.cnpj }}  <!-- Use form field for CNPJ -->
+            {% if form.cnpj.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.cnpj.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_descricao" class="form-label">Descrição</label>
+            {{ form.id_descricao }}
+            {% if form.id_descricao.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.id_descricao.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="id_valor" class="form-label">Valor</label>
+            {{ form.id_valor }}
+            {% if form.id_valor.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.id_valor.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="id_data_vencimento" class="form-label">Data de Vencimento</label>
+            {{ form.data_vencimento }}
+            {% if form.data_vencimento.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.data_vencimento.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="id_status_pagamento" class="form-label">Status Pagamento</label>
+            {{ form.id_status_pagamento }}
+            {% if form.id_status_pagamento.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.id_status_pagamento.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">Adicionar</button>
+            <a href="{% url 'cobrancas:index_cobranca' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+{% endblock %}

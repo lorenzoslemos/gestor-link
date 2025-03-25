@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Editar Prazo</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if form.cpf.value %}
+                    <tr>
+                        <td><label for="id_cpf">CPF</label></td>
+                        <td>{{ form.cpf }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><label for="id_cnpj">CNPJ</label></td>
+                        <td>{{ form.cnpj }}</td>
+                    </tr>
+                {% endif %}
+
+                <tr>
+                    <td><label for="id_id_prazo">Tipo Prazo</label></td>
+                    <td>{{ form.id_prazo }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_data_vencimento">Data Vencimento</label></td>
+                    <td>{{ form.data_vencimento }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-3">
+            <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+            <a href="{% url 'vencimentos:index_vencimento' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+{% endblock %}

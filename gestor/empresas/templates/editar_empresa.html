@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Editar Empresa</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label for="id_cnpj">CNPJ</label></td>
+                    <td>{{ form.cnpj }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_empresa">Empresa</label></td>
+                    <td>{{ form.empresa }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_id_regime">Regime Tributário</label></td>
+                    <td>{{ form.id_regime }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_id_natureza">Natureza Jurídica</label></td>
+                    <td>{{ form.id_natureza }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-3">
+          <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+          <a href="{% url 'empresas:index_empresa' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+{% endblock %}

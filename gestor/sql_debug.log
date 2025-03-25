@@ -1,0 +1,58 @@
+(0.002) SELECT CAST(SERVERPROPERTY('ProductVersion') AS varchar); args=None; alias=default
+(0.001) SELECT SYSDATETIME(); args=None; alias=default
+(0.009) SELECT
+                        TABLE_NAME,
+                        TABLE_TYPE,
+                        CAST(ep.value AS VARCHAR) AS COMMENT
+                    FROM INFORMATION_SCHEMA.TABLES i
+                    LEFT JOIN sys.tables t ON t.name = i.TABLE_NAME
+                    LEFT JOIN sys.extended_properties ep ON t.object_id = ep.major_id
+                    AND ((ep.name = 'MS_DESCRIPTION' AND ep.minor_id = 0) OR ep.value IS NULL)
+                    WHERE i.TABLE_SCHEMA = SCHEMA_NAME(); args=None; alias=default
+(0.001) SELECT [django_migrations].[id], [django_migrations].[app], [django_migrations].[name], [django_migrations].[applied] FROM [django_migrations]; args=(); alias=default
+(0.001) SELECT CAST(SERVERPROPERTY('ProductVersion') AS varchar); args=None; alias=default
+(0.001) SELECT SYSDATETIME(); args=None; alias=default
+(0.007) SELECT
+                        TABLE_NAME,
+                        TABLE_TYPE,
+                        CAST(ep.value AS VARCHAR) AS COMMENT
+                    FROM INFORMATION_SCHEMA.TABLES i
+                    LEFT JOIN sys.tables t ON t.name = i.TABLE_NAME
+                    LEFT JOIN sys.extended_properties ep ON t.object_id = ep.major_id
+                    AND ((ep.name = 'MS_DESCRIPTION' AND ep.minor_id = 0) OR ep.value IS NULL)
+                    WHERE i.TABLE_SCHEMA = SCHEMA_NAME(); args=None; alias=default
+(0.001) SELECT [django_migrations].[id], [django_migrations].[app], [django_migrations].[name], [django_migrations].[applied] FROM [django_migrations]; args=(); alias=default
+(0.001) SELECT SYSDATETIME(); args=None; alias=default
+(0.001) SELECT TOP 21 [auth_user].[id], [auth_user].[password], [auth_user].[last_login], [auth_user].[is_superuser], [auth_user].[username], [auth_user].[first_name], [auth_user].[last_name], [auth_user].[email], [auth_user].[is_staff], [auth_user].[is_active], [auth_user].[date_joined] FROM [auth_user] WHERE [auth_user].[username] = lorenzo.lemos; args=('lorenzo.lemos',); alias=default
+(0.001) SELECT CAST(SERVERPROPERTY('ProductVersion') AS varchar); args=None; alias=default
+(0.001) SELECT SYSDATETIME(); args=None; alias=default
+(0.001) SELECT CAST(SERVERPROPERTY('ProductVersion') AS varchar); args=None; alias=default
+(0.003) SELECT TOP 21 [auth_user].[id], [auth_user].[password], [auth_user].[last_login], [auth_user].[is_superuser], [auth_user].[username], [auth_user].[first_name], [auth_user].[last_name], [auth_user].[email], [auth_user].[is_staff], [auth_user].[is_active], [auth_user].[date_joined] FROM [auth_user] WHERE [auth_user].[username] = admin; args=('admin',); alias=default
+(0.001) SELECT TOP 21 [auth_user].[id], [auth_user].[password], [auth_user].[last_login], [auth_user].[is_superuser], [auth_user].[username], [auth_user].[first_name], [auth_user].[last_name], [auth_user].[email], [auth_user].[is_staff], [auth_user].[is_active], [auth_user].[date_joined] FROM [auth_user] WHERE [auth_user].[username] = lorenzo.lemos; args=('lorenzo.lemos',); alias=default
+(0.001) SELECT TOP 21 [auth_user].[id], [auth_user].[password], [auth_user].[last_login], [auth_user].[is_superuser], [auth_user].[username], [auth_user].[first_name], [auth_user].[last_name], [auth_user].[email], [auth_user].[is_staff], [auth_user].[is_active], [auth_user].[date_joined] FROM [auth_user] WHERE [auth_user].[username] = lorenzo.lemos; args=('lorenzo.lemos',); alias=default
+(0.000) SELECT TOP 21 [auth_user].[id], [auth_user].[password], [auth_user].[last_login], [auth_user].[is_superuser], [auth_user].[username], [auth_user].[first_name], [auth_user].[last_name], [auth_user].[email], [auth_user].[is_staff], [auth_user].[is_active], [auth_user].[date_joined] FROM [auth_user] WHERE [auth_user].[username] = lorenzo.lemos; args=('lorenzo.lemos',); alias=default
+(0.015) SELECT TOP 1 1 AS [a] FROM [django_session] WHERE [django_session].[session_key] = 0twgbwlu1jfafmfz0g17o82pmw39a55n; args=(1, '0twgbwlu1jfafmfz0g17o82pmw39a55n'); alias=default
+(0.000) BEGIN; args=None; alias=default
+(0.003) INSERT INTO [django_session] ([session_key], [session_data], [expire_date]) VALUES (0twgbwlu1jfafmfz0g17o82pmw39a55n, e30:1twr2p:-O509boeP7cpzibEr_m6h9U7oXpDv5B-ahPrT2_U2_A, 2025-03-25 00:17:23.311449+00:00); args=('0twgbwlu1jfafmfz0g17o82pmw39a55n', 'e30:1twr2p:-O509boeP7cpzibEr_m6h9U7oXpDv5B-ahPrT2_U2_A', datetime.datetime(2025, 3, 25, 0, 17, 23, 311449, tzinfo=datetime.timezone.utc)); alias=default
+(0.001) COMMIT; args=None; alias=default
+(0.006) SET NOCOUNT OFF; UPDATE [auth_user] SET [last_login] = 2025-03-24 23:17:23.320899+00:00 WHERE [auth_user].[id] = 2; args=(datetime.datetime(2025, 3, 24, 23, 17, 23, 320899, tzinfo=datetime.timezone.utc), 2); alias=default
+(0.001) SELECT CAST(SERVERPROPERTY('ProductVersion') AS varchar); args=None; alias=default
+(0.001) SELECT SYSDATETIME(); args=None; alias=default
+(0.004) SELECT
+                        TABLE_NAME,
+                        TABLE_TYPE,
+                        CAST(ep.value AS VARCHAR) AS COMMENT
+                    FROM INFORMATION_SCHEMA.TABLES i
+                    LEFT JOIN sys.tables t ON t.name = i.TABLE_NAME
+                    LEFT JOIN sys.extended_properties ep ON t.object_id = ep.major_id
+                    AND ((ep.name = 'MS_DESCRIPTION' AND ep.minor_id = 0) OR ep.value IS NULL)
+                    WHERE i.TABLE_SCHEMA = SCHEMA_NAME(); args=None; alias=default
+(0.001) SELECT [django_migrations].[id], [django_migrations].[app], [django_migrations].[name], [django_migrations].[applied] FROM [django_migrations]; args=(); alias=default
+(0.001) SELECT SYSDATETIME(); args=None; alias=default
+(0.001) SELECT TOP 21 [auth_user].[id], [auth_user].[password], [auth_user].[last_login], [auth_user].[is_superuser], [auth_user].[username], [auth_user].[first_name], [auth_user].[last_name], [auth_user].[email], [auth_user].[is_staff], [auth_user].[is_active], [auth_user].[date_joined] FROM [auth_user] WHERE [auth_user].[username] = lorenzo.lemos; args=('lorenzo.lemos',); alias=default
+(0.001) SELECT TOP 21 [auth_user].[id], [auth_user].[password], [auth_user].[last_login], [auth_user].[is_superuser], [auth_user].[username], [auth_user].[first_name], [auth_user].[last_name], [auth_user].[email], [auth_user].[is_staff], [auth_user].[is_active], [auth_user].[date_joined] FROM [auth_user] WHERE [auth_user].[username] = lorenzo.lemos; args=('lorenzo.lemos',); alias=default
+(0.001) SELECT TOP 1 1 AS [a] FROM [django_session] WHERE [django_session].[session_key] = rw881wv2d576ujeuxik61yk1u0slpymu; args=(1, 'rw881wv2d576ujeuxik61yk1u0slpymu'); alias=default
+(0.001) BEGIN; args=None; alias=default
+(0.001) INSERT INTO [django_session] ([session_key], [session_data], [expire_date]) VALUES (rw881wv2d576ujeuxik61yk1u0slpymu, e30:1twr3Y:jnx5JljFhJXgao_aoOQfGFQhvQE8fWAc5CerURAc0cA, 2025-03-25 00:18:08.634875+00:00); args=('rw881wv2d576ujeuxik61yk1u0slpymu', 'e30:1twr3Y:jnx5JljFhJXgao_aoOQfGFQhvQE8fWAc5CerURAc0cA', datetime.datetime(2025, 3, 25, 0, 18, 8, 634875, tzinfo=datetime.timezone.utc)); alias=default
+(0.016) COMMIT; args=None; alias=default
+(0.002) SET NOCOUNT OFF; UPDATE [auth_user] SET [last_login] = 2025-03-24 23:18:08.659692+00:00 WHERE [auth_user].[id] = 2; args=(datetime.datetime(2025, 3, 24, 23, 18, 8, 659692, tzinfo=datetime.timezone.utc), 2); alias=default

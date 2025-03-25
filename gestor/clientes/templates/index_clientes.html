@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Clientes</h1>
+        <a href="{% url 'clientes:adicionar_cliente' %}" class="btn btn-primary btn-fixed">Adicionar Cliente</a>
+    </div>
+    <form method="GET" action="{% url 'clientes:index_cliente' %}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar por CPF ou Nome" name="q" value="{{ query }}">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <a href="?order_by=id_cliente&direction={% if order_by == 'id_cliente' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            ID
+                            {% if order_by == 'id_cliente' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="?order_by=cpf&direction={% if order_by == 'cpf' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            CPF
+                            {% if order_by == 'cpf' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="?order_by=nome&direction={% if order_by == 'nome' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            Nome
+                            {% if order_by == 'nome' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="?order_by=sobrenome&direction={% if order_by == 'sobrenome' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            Sobrenome
+                            {% if order_by == 'sobrenome' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in page_obj %}
+                <tr>
+                    <th scope="row">{{ cliente.id_cliente }}</th>
+                    <td>{{ cliente.cpf }}</td>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.sobrenome }}</td>
+                    <td class="d-flex justify-content-end align-items-center">
+                        <a href="{% url 'clientes:editar_cliente' cliente.id_cliente %}" class="btn btn-warning btn-sm btn-aux me-2">Editar</a>
+                        <a href="{% url 'clientes:excluir_cliente' cliente.id_cliente %}" class="btn btn-danger btn-sm btn-aux">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Controles de Paginação -->
+    <div class="d-flex justify-content-center">
+        <div class="btn-group">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Primeira</a>
+                <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Anterior</a>
+            {% endif %}
+
+            <span class="btn btn-outline-secondary disabled">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Próxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Última</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

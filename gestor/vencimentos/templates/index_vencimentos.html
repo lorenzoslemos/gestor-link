@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Vencimentos</h1>
+        <a href="{% url 'vencimentos:adicionar_vencimento' %}" class="btn btn-primary btn-fixed">Adicionar Prazo</a>
+    </div>
+    <form method="GET" action="{% url 'vencimentos:index_vencimento' %}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar por CPF ou CNPJ" name="q" value="{{ query }}">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <a href="?order_by=id_vencimento&direction={% if order_by == 'id_vencimento' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            ID
+                            {% if order_by == 'id_vencimento' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="?order_by=cpf&direction={% if order_by == 'cpf' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            CPF
+                            {% if order_by == 'cpf' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="?order_by=cnpj&direction={% if order_by == 'cnpj' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            CNPJ
+                            {% if order_by == 'cnpj' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="?order_by=id_prazo&direction={% if order_by == 'id_prazo' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            Prazo
+                            {% if order_by == 'id_prazo' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="?order_by=data_vencimento&direction={% if order_by == 'data_vencimento' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            Data Vencimento
+                            {% if order_by == 'data_vencimento' %}
+                                <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vencimento in page_obj %}
+                <tr>
+                    <th scope="row">{{ vencimento.id_vencimento }}</th>
+                    <td>{{ vencimento.cpf }}</td>
+                    <td>{{ vencimento.cnpj }}</td>
+                    <td>{{ vencimento.id_prazo.prazo_monitorado }}</td>
+                    <td>{{ vencimento.data_vencimento }}</td>
+                    <td class="d-flex justify-content-end align-items-center">
+                        <a href="{% url 'vencimentos:editar_vencimento' vencimento.id_vencimento %}" class="btn btn-warning btn-sm btn-aux me-2 ">Editar</a>
+                        <a href="{% url 'vencimentos:excluir_vencimento' vencimento.id_vencimento %}" class="btn btn-danger btn-sm btn-aux">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Controles de Paginação -->
+    <div class="d-flex justify-content-center">
+        <div class="btn-group">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Primeira</a>
+                <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Anterior</a>
+            {% endif %}
+
+            <span class="btn btn-outline-secondary disabled">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Próxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Última</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

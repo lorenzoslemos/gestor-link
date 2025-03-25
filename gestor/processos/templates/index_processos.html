@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Processos</h1>
+    <a href="{% url 'processos:adicionar_processo' %}" class="btn btn-primary btn-fixed">Adicionar Processo</a>
+</div>
+<form method="GET" action="{% url 'processos:index_processo' %}" class="mb-4">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Buscar por CPF ou CNPJ" name="q" value="{{ query }}">
+        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+    </div>
+</form>
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <a href="?order_by=id_processo&direction={% if order_by == 'id_processo' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        ID
+                        {% if order_by == 'id_processo' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="?order_by=cpf&direction={% if order_by == 'cpf' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        CPF
+                        {% if order_by == 'cpf' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="?order_by=cnpj&direction={% if order_by == 'cnpj' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        CNPJ
+                        {% if order_by == 'cnpj' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="?order_by=tipo_processo&direction={% if order_by == 'tipo_processo' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Tipo Processo
+                        {% if order_by == 'tipo_processo' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="?order_by=status_processo&direction={% if order_by == 'status_processo' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Status Processo
+                        {% if order_by == 'status_processo' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="?order_by=data_inicio&direction={% if order_by == 'data_inicio' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Data Início
+                        {% if order_by == 'data_inicio' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="?order_by=data_termino&direction={% if order_by == 'data_termino' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Data Término
+                        {% if order_by == 'data_termino' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="?order_by=responsavel&direction={% if order_by == 'responsavel' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Responsável
+                        {% if order_by == 'responsavel' %}
+                            <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for processo in page_obj %}
+            <tr data-bs-toggle="modal" data-bs-target="#descricaoModal{{ processo.id_processo }}">
+                <th scope="row">{{ processo.id_processo }}</th>
+                <td>{{ processo.cpf }}</td>
+                <td>{{ processo.cnpj }}</td>
+                <td>{{ processo.tipo_processo }}</td>
+                <td>{{ processo.status_processo }}</td>
+                <td>{{ processo.data_inicio }}</td>
+                <td>{{ processo.data_termino }}</td>
+                <td>{{ processo.responsavel }}</td>
+                <td class="d-flex justify-content-end align-items-center">
+                    <a href="{% url 'processos:editar_processo' processo.id_processo %}" class="btn btn-warning btn-sm btn-aux me-2">Editar</a>
+                    <a href="{% url 'processos:excluir_processo' processo.id_processo %}" class="btn btn-danger btn-sm btn-aux">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Controles de Paginação -->
+<div class="d-flex justify-content-center">
+    <div class="btn-group">
+        {% if page_obj.has_previous %}
+            <a href="?page=1&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Primeira</a>
+            <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Anterior</a>
+        {% endif %}
+
+        <span class="btn btn-outline-secondary disabled">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Próxima</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&order_by={{ order_by }}&direction={{ direction }}" class="btn btn-outline-secondary">Última</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal para Descrição -->
+{% for processo in page_obj %}
+<div class="modal fade" id="descricaoModal{{ processo.id_processo }}" tabindex="-1" aria-labelledby="descricaoModalLabel{{ processo.id_processo }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="descricaoModalLabel{{ processo.id_processo }}">Descrição do Processo #{{ processo.id_processo }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <pre>{{ processo.descricao }}</pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% block extra_css %}
+<style>
+    table tbody tr {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h4>
+    Você tem certeza que deseja excluir o prazo "{{ vencimento.id_prazo }}"
+    do cliente/empresa "
+    {% if vencimento.cpf %}{{ vencimento.cpf }}{% endif %}
+    {% if vencimento.cnpj %}{{ vencimento.cnpj }}{% endif %}"?
+  </h4>
+  <ul>
+      {% if vencimento.cpf %}
+          <li><strong>CPF:</strong> {{ vencimento.cpf }}</li>
+      {% endif %}
+
+      {% if vencimento.cnpj %}
+          <li><strong>CNPJ:</strong> {{ vencimento.cnpj }}</li>
+      {% endif %}
+
+      {% if vencimento.id_prazo %}
+          <li><strong>Tipo de Prazo:</strong> {{ vencimento.id_prazo }}</li>
+      {% endif %}
+  </ul>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a href="{% url 'vencimentos:index_vencimento' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+{% endblock %}

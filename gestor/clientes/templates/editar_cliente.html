@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Editar Cliente</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label for="id_cpf">CPF</label></td>
+                    <td>{{ form.cpf }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_nome">Nome</label></td>
+                    <td>{{ form.nome }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_sobrenome">Sobrenome</label></td>
+                    <td>{{ form.sobrenome }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-3">
+          <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+          <a href="{% url 'clientes:index_cliente' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+{% endblock %}

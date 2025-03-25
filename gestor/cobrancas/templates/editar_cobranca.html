@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Editar Cobrança</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label for="id_cpf">CPF</label></td>
+                    <td>{{ form.cpf }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_cnpj">CNPJ</label></td>
+                    <td>{{ form.cnpj }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_descricao">Descrição</label></td>
+                    <td>{{ form.descricao }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_valor">Valor</label></td>
+                    <td>{{ form.valor }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_data_vencimento">Data Vencimento</label></td>
+                    <td>{{ form.data_vencimento }}</td>
+                </tr>
+                <tr>
+                    <td><label for="id_status_pagamento">Status Pagamento</label></td>
+                    <td>{{ form.status_pagamento }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-3">
+          <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+          <a href="{% url 'cobrancas:index_cobranca' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+{% endblock %}
