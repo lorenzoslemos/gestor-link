@@ -39,7 +39,7 @@ def adicionar_cobranca(request):
 
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO COBRANCA (cpf, cnpj, descricao, valor, data_vencimento, status_pagamento) VALUES (%s, %s, %s, %s, %s, %s)",
+                    'INSERT INTO "COBRANCA" (cpf, cnpj, descricao, valor, data_vencimento, status_pagamento) VALUES (%s, %s, %s, %s, %s, %s)',
                     [dados['cpf'], dados['cnpj'], dados['descricao'], dados['valor'], dados['data_vencimento'], dados['status_pagamento']]
                 )
 

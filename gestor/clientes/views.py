@@ -39,7 +39,7 @@ def adicionar_cliente(request):
 
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO CLIENTE (cpf, nome, sobrenome) VALUES (%s, %s, %s)",
+                    'INSERT INTO "CLIENTE" (cpf, nome, sobrenome) VALUES (%s, %s, %s)',
                     [dados['cpf'], dados['nome'], dados['sobrenome']]
                 )
 
