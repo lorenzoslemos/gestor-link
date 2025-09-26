@@ -2,10 +2,10 @@
   "version": 2,
   "builds": [
     { "src": "api/index.py", "use": "@vercel/python" },
-    { "src": "gestor/gestor/static/**/*", "use": "@vercel/static" }
+    { "src": "gestor/static/**/*", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/static/(.*)", "dest": "/gestor/gestor/static/$1" },
+    { "src": "/static/(.*)", "dest": "/gestor/static/$1" },
     { "src": "/(.*)", "dest": "/api/index.py" }
   ]
 }
