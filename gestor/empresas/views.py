@@ -5,6 +5,8 @@ from django.db import connection
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
+
 
 @login_required
 def index(request):
@@ -25,12 +27,17 @@ def index(request):
     else:
         empresas = empresas.order_by(f'-{order_by}')  # Ordenação descendente
 
+    # Formatando o CNPJ para cada empresa
+    for empresa in empresas:
+        empresa.cnpj = formatar_cnpj(empresa.cnpj)  # Aplica a formatação ao CNPJ
+
     # Paginando as empresas: 10 empresas por página
     paginator = Paginator(empresas, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'index_empresas.html', {'page_obj': page_obj, 'query': query, 'order_by': order_by, 'direction': direction})
+
 
 @login_required
 def adicionar_empresa(request):
@@ -42,13 +49,21 @@ def adicionar_empresa(request):
             id_regime_valor = dados['id_regime'].id_regime
             id_natureza_valor = dados['id_natureza'].id_natureza
 
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "INSERT INTO EMPRESA (cnpj, empresa, id_regime, id_natureza) VALUES (%s, %s, %s, %s)",
-                    [dados['cnpj'], dados['empresa'], id_regime_valor, id_natureza_valor]
-                )
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "INSERT INTO EMPRESA (cnpj, empresa, id_regime, id_natureza) VALUES (%s, %s, %s, %s)",
+                        [dados['cnpj'], dados['empresa'], id_regime_valor, id_natureza_valor]
+                    )
+                return redirect('empresas:index_empresa')
 
-            return redirect('empresas:index_empresa')
+            except IntegrityError as e:
+                # Verifica se a exceção é a violação de chave única
+                if '2627' in str(e):
+                    form.add_error('cnpj', 'Este CNPJ já está registrado.')
+                else:
+                    form.add_error(None, 'Ocorreu um erro ao tentar salvar a empresa.')
+
     else:
         form = EmpresaForm()
 
@@ -76,3 +91,7 @@ def excluir_empresa(request, pk):
 
     return render(request, 'confirmar_exclusao_empresa.html', {'empresa': empresa})
 
+
+def formatar_cnpj(cnpj):
+    cnpj = ''.join(filter(str.isdigit, cnpj))  # Remover qualquer caractere não numérico
+    return f"{cnpj[:2]}.{cnpj[2:5]}.{cnpj[5:8]}/{cnpj[8:12]}-{cnpj[12:]}" if len(cnpj) == 14 else cnpj

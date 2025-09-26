@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o+#b$hn@6&n$9cd^!2#78ffn-s0nj2bxat6fg#q)te9hdqamu6'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','.vercel.app']
 
 
 # Application definition
@@ -77,8 +77,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gestor.wsgi.application'
-
+# WSGI_APPLICATION = 'gestor.wsgi.application'
+WSGI_APPLICATION = 'gestor.wsgi.app'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -97,18 +97,31 @@ LOGIN_URL = 'autenticacao:login'  # A URL 'login' da app 'autenticacao'
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "mssql",
+#         "NAME": "Gestor",
+#         "USER": "sa",
+#        "PASSWORD": "P@ssw0rd2704",
+#         "HOST": "127.0.0.1",
+#         "PORT": "1433",
+#         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server",
+#         },
+#     },
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "mssql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": "Gestor",
-        "USER": "sa",
-       "PASSWORD": "P@ssw0rd2704",
-        "HOST": "127.0.0.1",
-        "PORT": "1433",
-        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server",
-        },
+        "USER": "neondb_owner",
+        "PASSWORD": "npg_yYzbn9XSv4JW",
+        "HOST": "ep-plain-night-adimk4ij-pooler.c-2.us-east-1.aws.neon.tech",
+        "PORT": "5432",
+        "OPTIONS": {'sslmode': 'require'}
     },
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -142,7 +155,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build','static')
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # Ou o caminho para a pasta estática
 ]
