@@ -52,7 +52,7 @@ def adicionar_empresa(request):
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO EMPRESA (cnpj, empresa, id_regime, id_natureza) VALUES (%s, %s, %s, %s)",
+                        'INSERT INTO "EMPRESA" (cnpj, empresa, id_regime, id_natureza) VALUES (%s, %s, %s, %s)',
                         [dados['cnpj'], dados['empresa'], id_regime_valor, id_natureza_valor]
                     )
                 return redirect('empresas:index_empresa')
