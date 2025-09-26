@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "gestor/gestor/wsgi.py",
+      "src": "gestor/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }
@@ -10,11 +10,11 @@
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/gestor/staticfiles_build/static/$1"
+      "dest": "/static/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "gestor/gestor/wsgi.py"
+      "dest": "gestor/wsgi.py"
     }
   ]
 }
