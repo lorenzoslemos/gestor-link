@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'processos.apps.ProcessosConfig',
     'reunioes.apps.ReunioesConfig',
     'vencimentos.apps.VencimentosConfig',
-    'autenticacao'
+    'autenticacao',
+    'cloudinary',
+    'cloudinary_storage'
 ]
 
 MIDDLEWARE = [
@@ -164,3 +166,15 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Para uploads de arquivos de mídia
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+
+# Cloudinary config
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'Root',
+    'API_KEY': '732569846912792',
+    'API_SECRET': '-uKVxe0hbc2WvqTbZIR5mQIBySY'
+}
+
