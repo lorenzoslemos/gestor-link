@@ -9,12 +9,14 @@ TIPO_PROCESSO_CHOICES = [
 STATUS_PROCESSO_CHOICES = [
     ('pendente', 'Pendente'),
     ('finalizado', 'Finalizado'),
+    ('em andamento', 'Em Andamento'),
 ]
 
 RESPONSAVEL_CHOICES = [
     ('myllena.cristina', 'Myllena Cristina'),
     ('ana.maria', 'Ana Maria'),
     ('jessica.baches', 'Jéssica Baches'),
+    ('kimber.rossi', 'Kimber Rossi'),
 ]
 
 class Processo(models.Model):
