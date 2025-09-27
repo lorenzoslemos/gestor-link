@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Processo
-from .forms import ProcessoForm
+from .forms import ProcessoForm, ProcessoEditForm
 from clientes.models import Cliente
 from empresas.models import Empresa
 from django.db.models.functions import Coalesce
@@ -59,41 +59,42 @@ def index(request):
 def adicionar_processo(request):
     if request.method == "POST":
         form = ProcessoForm(request.POST)
-        cpf = request.POST.get('cpf', '').strip()
-        cnpj = request.POST.get('cnpj', '').strip()
 
+        # Pega os valores com segurança
+        cpf = (request.POST.get('cpf') or '').strip()
+        cnpj = (request.POST.get('cnpj') or '').strip()
+
+        # Validação manual (opcional, já tratada no forms.py)
         if not cpf and not cnpj:
             form.add_error(None, "Preencha pelo menos o CPF ou o CNPJ.")
 
         if form.is_valid():
-            # Antes de salvar, imprima os dados limpos do formulário
-            print("Dados para salvar:", form.cleaned_data)
-
-            # Salve o objeto
             form.save()
-
             return redirect('processos:index_processo')
-        else:
-            # Se o formulário não for válido, mostre os erros
-            print("Erro ao validar o formulário:", form.errors)
-            return render(request, 'adicionar_processo.html', {'form': form})
-
+        # Se não for válido, volta para o template com erros
     else:
-        form = ProcessoForm()
+        form = ProcessoForm()  # formulário vazio
 
     return render(request, 'adicionar_processo.html', {'form': form})
 
 @login_required
 def editar_processo(request, pk):
     processo = get_object_or_404(Processo, pk=pk)
+
     if request.method == 'POST':
-        form = ProcessoForm(request.POST, instance=processo)
+        form = ProcessoEditForm(request.POST, instance=processo)
         if form.is_valid():
             form.save()
             return redirect('processos:index_processo')
     else:
-        form = ProcessoForm(instance=processo)
-    return render(request, 'editar_processo.html', {'form': form, 'processo': processo})
+        form = ProcessoEditForm(instance=processo)
+
+    return render(request, 'editar_processo.html', {
+        'form': form,
+        'processo': processo
+    })
+
+
 
 @login_required
 def excluir_processo(request, pk):

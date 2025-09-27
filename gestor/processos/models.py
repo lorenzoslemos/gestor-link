@@ -1,15 +1,15 @@
 from django.db import models
 
 TIPO_PROCESSO_CHOICES = [
-    ('abertura', 'Abertura'),
-    ('alteracao', 'Alteração'),
-    ('baixa', 'Baixa'),
+    ('Abertura', 'Abertura'),
+    ('Alteracao', 'Alteração'),
+    ('Baixa', 'Baixa'),
 ]
 
 STATUS_PROCESSO_CHOICES = [
-    ('pendente', 'Pendente'),
-    ('finalizado', 'Finalizado'),
-    ('em andamento', 'Em Andamento'),
+    ('Pendente', 'Pendente'),
+    ('Finalizado', 'Finalizado'),
+    ('Em andamento', 'Em Andamento'),
 ]
 
 RESPONSAVEL_CHOICES = [
@@ -20,13 +20,13 @@ RESPONSAVEL_CHOICES = [
 ]
 
 class Processo(models.Model):
-    id_processo = models.IntegerField(primary_key=True)
-    cpf = models.CharField(max_length=11)
-    cnpj = models.CharField(max_length=14)
+    id_processo = models.AutoField(primary_key=True)
+    cpf = models.CharField(max_length=11, blank=True, null=True)
+    cnpj = models.CharField(max_length=14, blank=True, null=True)
     tipo_processo =models.CharField(max_length=30, choices=TIPO_PROCESSO_CHOICES)
     status_processo = models.CharField(max_length=30, choices=STATUS_PROCESSO_CHOICES)
     data_inicio = models.DateField()
-    data_termino = models.DateField()
+    data_termino = models.DateField(blank=True, null=True)
     descricao = models.CharField(max_length=1000)
     responsavel = models.CharField(max_length=16, choices=RESPONSAVEL_CHOICES)
 

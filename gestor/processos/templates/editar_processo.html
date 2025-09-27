@@ -1,39 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Editar Empresa</h1>
+<h1>Editar Processo</h1>
 
-    <form method="POST">
-        {% csrf_token %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><label for="id_cnpj">CNPJ</label></td>
-                    <td>{{ form.cnpj }}</td>
-                </tr>
-                <tr>
-                    <td><label for="id_empresa">Empresa</label></td>
-                    <td>{{ form.empresa }}</td>
-                </tr>
-                <tr>
-                    <td><label for="id_id_regime">Regime Tributário</label></td>
-                    <td>{{ form.id_regime }}</td>
-                </tr>
-                <tr>
-                    <td><label for="id_id_natureza">Natureza Jurídica</label></td>
-                    <td>{{ form.id_natureza }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-3">
-          <button type="submit" class="btn btn-primary mr-2">Salvar</button>
-          <a href="{% url 'empresas:index_empresa' %}" class="btn btn-secondary">Voltar</a>
-        </div>
-    </form>
+<p><strong>ID do Processo:</strong> {{ processo.id_processo }}</p>
+<p><strong>CPF/CNPJ:</strong>
+    {% if processo.cpf %}{{ processo.cpf }}{% endif %}
+    {% if processo.cpf and processo.cnpj %} / {% endif %}
+    {% if processo.cnpj %}{{ processo.cnpj }}{% endif %}
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <!-- Campos hidden para CPF/CNPJ -->
+    <input type="hidden" name="cpf" value="{{ processo.cpf }}">
+    <input type="hidden" name="cnpj" value="{{ processo.cnpj }}">
+
+    <!-- Tipo de Processo -->
+    <div class="form-group">
+        <label for="{{ form.tipo_processo.id_for_label }}">Tipo de Processo</label>
+        {{ form.tipo_processo }}
+        {% if form.tipo_processo.errors %}
+            <div class="text-danger">{{ form.tipo_processo.errors }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Status do Processo -->
+    <div class="form-group">
+        <label for="{{ form.status_processo.id_for_label }}">Status do Processo</label>
+        {{ form.status_processo }}
+        {% if form.status_processo.errors %}
+            <div class="text-danger">{{ form.status_processo.errors }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Data Início -->
+    <div class="form-group">
+        <label for="{{ form.data_inicio.id_for_label }}">Data Início</label>
+        {{ form.data_inicio }}
+        {% if form.data_inicio.errors %}
+            <div class="text-danger">{{ form.data_inicio.errors }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Data Término -->
+    <div class="form-group">
+        <label for="{{ form.data_termino.id_for_label }}">Data Término</label>
+        {{ form.data_termino }}
+        {% if form.data_termino.errors %}
+            <div class="text-danger">{{ form.data_termino.errors }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Descrição -->
+    <div class="form-group">
+        <label for="{{ form.descricao.id_for_label }}">Descrição</label>
+        {{ form.descricao }}
+        {% if form.descricao.errors %}
+            <div class="text-danger">{{ form.descricao.errors }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Responsável -->
+    <div class="form-group">
+        <label for="{{ form.responsavel.id_for_label }}">Responsável</label>
+        {{ form.responsavel }}
+        {% if form.responsavel.errors %}
+            <div class="text-danger">{{ form.responsavel.errors }}</div>
+        {% endif %}
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="{% url 'processos:index_processo' %}" class="btn btn-secondary">Voltar</a>
+</form>
 {% endblock %}

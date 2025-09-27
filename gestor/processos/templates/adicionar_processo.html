@@ -1,14 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Adicionar Processo</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
+<h1>Adicionar Processo</h1>
 
-        <div class="d-3">
-          <button type="submit" class="btn btn-success">Adicionar</button>
-          <a href="{% url 'processos:index_processo' %}" class="btn btn-secondary">Voltar</a>
-        </div>
-    </form>
+<form method="POST" id="processoForm">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">Adicionar</button>
+    <a href="{% url 'processos:index_processo' %}" class="btn btn-secondary">Voltar</a>
+</form>
+
+<script>
+    // Bloqueio de campos: apenas CPF ou CNPJ
+    const cpfInput = document.getElementById("id_cpf");
+    const cnpjInput = document.getElementById("id_cnpj");
+
+    function atualizarReadonly() {
+        if (cpfInput.value.trim() !== "") {
+            cnpjInput.readOnly = true;   // bloqueia, mas mantém valor
+        } else {
+            cnpjInput.readOnly = false;
+        }
+
+        if (cnpjInput.value.trim() !== "") {
+            cpfInput.readOnly = true;
+        } else {
+            cpfInput.readOnly = false;
+        }
+    }
+
+    // Executa quando o usuário digita
+    cpfInput.addEventListener("input", atualizarReadonly);
+    cnpjInput.addEventListener("input", atualizarReadonly);
+
+    // Executa ao carregar a página (para manter estado ao mostrar erros)
+    window.addEventListener("load", atualizarReadonly);
+</script>
 {% endblock %}
