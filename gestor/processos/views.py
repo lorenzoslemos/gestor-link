@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Processo
 from .forms import ProcessoForm
-from django.db.models import Q
+from clientes.models import Cliente
+from empresas.models import Empresa
+from django.db.models.functions import Coalesce
+from django.db.models import Q, OuterRef, Subquery, CharField, Value
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
@@ -11,23 +14,46 @@ def index(request):
     order_by = request.GET.get('order_by', 'id_processo')
     direction = request.GET.get('direction', 'asc')
 
-    if query:
-        processos = Processo.objects.filter(
-            Q(cpf__icontains=query) | Q(cnpj__icontains=query)
-        )
-    else:
-        processos = Processo.objects.all()
+    # Subquery para Cliente (campo nome)
+    cliente_nome = Cliente.objects.filter(cpf=OuterRef('cpf')).values('nome')[:1]
 
+    # Subquery para Empresa (campo empresa)
+    empresa_nome = Empresa.objects.filter(cnpj=OuterRef('cnpj')).values('empresa')[:1]
+
+    # Anota os nomes e CPF/CNPJ combinados no queryset de Processos
+    processos = Processo.objects.annotate(
+        nome_cliente=Subquery(cliente_nome, output_field=CharField()),
+        nome_empresa=Subquery(empresa_nome, output_field=CharField()),
+        cpf_cnpj=Coalesce('cpf', 'cnpj'),  # CPF ou CNPJ
+        cliente_empresa=Coalesce('nome_cliente', 'nome_empresa')  # Cliente ou Empresa
+    )
+
+    # Filtragem por query
+    if query:
+        processos = processos.filter(
+            Q(cpf__icontains=query) |
+            Q(cnpj__icontains=query) |
+            Q(nome_cliente__icontains=query) |
+            Q(nome_empresa__icontains=query)
+        )
+
+    # Ordenação
     if direction == 'asc':
         processos = processos.order_by(order_by)
     else:
         processos = processos.order_by(f'-{order_by}')
 
+    # Paginação
     paginator = Paginator(processos, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'index_processos.html', {'page_obj': page_obj, 'query': query, 'order_by': order_by, 'direction': direction})
+    return render(request, 'index_processos.html', {
+        'page_obj': page_obj,
+        'query': query,
+        'order_by': order_by,
+        'direction': direction
+    })
 
 @login_required
 def adicionar_processo(request):

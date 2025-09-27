@@ -8,7 +8,7 @@
 </div>
 <form method="GET" action="{% url 'processos:index_processo' %}" class="mb-4">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Buscar por CPF ou CNPJ" name="q" value="{{ query }}">
+        <input type="text" class="form-control" placeholder="Buscar por CPF, CNPJ ou Cliente/Empresa" name="q" value="{{ query }}">
         <button class="btn btn-outline-secondary" type="submit">Buscar</button>
     </div>
 </form>
@@ -26,17 +26,17 @@
                     </a>
                 </th>
                 <th scope="col">
-                    <a href="?order_by=cpf&direction={% if order_by == 'cpf' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                        CPF
-                        {% if order_by == 'cpf' %}
+                    <a href="?order_by=cpf_cnpj&direction={% if order_by == 'cpf_cnpj' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        CPF/CNPJ
+                        {% if order_by == 'cpf_cnpj' %}
                             <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
                         {% endif %}
                     </a>
                 </th>
                 <th scope="col">
-                    <a href="?order_by=cnpj&direction={% if order_by == 'cnpj' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                        CNPJ
-                        {% if order_by == 'cnpj' %}
+                    <a href="?order_by=cliente_empresa&direction={% if order_by == 'cliente_empresa' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Cliente/Empresa
+                        {% if order_by == 'cliente_empresa' %}
                             <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
                         {% endif %}
                     </a>
@@ -87,8 +87,8 @@
             {% for processo in page_obj %}
             <tr data-bs-toggle="modal" data-bs-target="#descricaoModal{{ processo.id_processo }}">
                 <th scope="row">{{ processo.id_processo }}</th>
-                <td>{{ processo.cpf }}</td>
-                <td>{{ processo.cnpj }}</td>
+                <td>{{ processo.cpf|default:processo.cnpj }}</td>
+                <td>{{ processo.nome_cliente|default:processo.nome_empresa }}</td>
                 <td>{{ processo.tipo_processo }}</td>
                 <td>{{ processo.status_processo }}</td>
                 <td>{{ processo.data_inicio }}</td>
