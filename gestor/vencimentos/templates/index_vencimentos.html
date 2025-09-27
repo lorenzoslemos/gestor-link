@@ -7,7 +7,7 @@
     </div>
     <form method="GET" action="{% url 'vencimentos:index_vencimento' %}" class="mb-4">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Buscar por CPF ou CNPJ" name="q" value="{{ query }}">
+            <input type="text" class="form-control" placeholder="Buscar por CPF, CNPJ ou Cliente/Empresa" name="q" value="{{ query }}">
             <button class="btn btn-outline-secondary" type="submit">Buscar</button>
         </div>
     </form>
@@ -25,17 +25,17 @@
                         </a>
                     </th>
                     <th scope="col">
-                        <a href="?order_by=cpf&direction={% if order_by == 'cpf' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                            CPF
-                            {% if order_by == 'cpf' %}
+                        <a href="?order_by=cpf_cnpj&direction={% if order_by == 'cpf_cnpj' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            CPF/CNPJ
+                            {% if order_by == 'cpf_cnpj' %}
                                 <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
                             {% endif %}
                         </a>
                     </th>
                     <th scope="col">
-                        <a href="?order_by=cnpj&direction={% if order_by == 'cnpj' and direction == 'asc' %}desc{% else %}asc{% endif %}">
-                            CNPJ
-                            {% if order_by == 'cnpj' %}
+                        <a href="?order_by=cliente_empresa&direction={% if order_by == 'cliente_empresa' and direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            Cliente/Empresa
+                            {% if order_by == 'cliente_empresa' %}
                                 <i class="bi {% if direction == 'asc' %}bi-arrow-up{% else %}bi-arrow-down{% endif %}"></i>
                             {% endif %}
                         </a>
@@ -62,8 +62,8 @@
                 {% for vencimento in page_obj %}
                 <tr>
                     <th scope="row">{{ vencimento.id_vencimento }}</th>
-                    <td>{{ vencimento.cpf }}</td>
-                    <td>{{ vencimento.cnpj }}</td>
+                    <td>{{ vencimento.cpf|default:vencimento.cnpj }}</td>
+                    <td>{{ vencimento.nome_cliente|default:vencimento.nome_empresa }}</td>
                     <td>{{ vencimento.id_prazo.prazo_monitorado }}</td>
                     <td>{{ vencimento.data_vencimento }}</td>
                     <td class="d-flex justify-content-end align-items-center">

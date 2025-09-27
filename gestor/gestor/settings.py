@@ -80,7 +80,6 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'gestor.wsgi.application'
 WSGI_APPLICATION = 'gestor.wsgi.app'
 
 # Database
